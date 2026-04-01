@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Undangan Pernikahan Eksklusif</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* RESET & DASAR */
+        * { margin: 0; padding: 0; box-sizing: border-box; border: none !important; outline: none !important; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        
+        /* BACKGROUND TETAP - DIUBAH AGAR LEBIH TERANG */
+        .bg-fixed {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            /* Layer hitam dikurangi dari 0.85 jadi 0.4 agar background lebih kelihatan */
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1470') center/cover;
+            z-index: -1;
+        }
+
+        /* ICON MUSIK */
+        .music-widget {
+            position: fixed; top: 25px; left: 20px; z-index: 2000;
+            background: rgba(212, 175, 55, 0.4); backdrop-filter: blur(10px);
+            padding: 8px 15px; border-radius: 30px; font-size: 11px; color: #fff;
+            display: flex; align-items: center; gap: 8px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* LAYOUT SECTIONS */
+        section {
+            min-height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center;
+            padding: 80px 20px; text-align: center; position: relative;
+        }
+
+        .container { 
+            max-width: 600px; width: 100%; 
+            /* Tambahan sedikit bayangan pada text agar tetap terbaca meski bg terang */
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+        h1, h2 { font-family: 'Playfair Display', serif; color: #d4af37; margin-bottom: 20px; }
+        p { line-height: 1.8; opacity: 1; font-weight: 500; }
+
+        /* COVER & AYAT */
+        #cover { background: rgba(0,0,0,0.7); z-index: 9999; position: fixed; top: 0; left: 0; transition: 2s cubic-bezier(0.65, 0, 0.35, 1); }
+        .ayat-cover { font-style: italic; font-size: 0.95rem; margin-bottom: 30px; color: #eee; line-height: 2; }
+        .btn-buka {
+            background: #d4af37; color: #000; padding: 18px 45px; border-radius: 50px;
+            font-weight: 800; cursor: pointer; margin-top: 15px; letter-spacing: 3px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .nama-gede { font-size: 2.5rem; font-weight: 700; margin: 15px 0; color: #d4af37; }
+
+        /* SURAT FORMAL */
+        .info-acara { margin: 25px 0; padding: 25px; border-radius: 20px; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(212, 175, 55, 0.5) !important; }
+        .btn-map-link { font-size: 3rem; color: #d4af37; margin-top: 15px; display: inline-block; text-decoration: none; }
+        .keluarga-besar { margin-top: 40px; display: flex; justify-content: space-between; font-size: 0.85rem; text-align: left; gap: 20px; }
+
+        /* COUNTER HADIR */
+        .counter-box { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #d4af37 !important; }
+
+        /* TIMER */
+        .timer-box { display: flex; justify-content: center; gap: 10px; margin: 25px 0; }
+        .timer-unit { background: rgba(0,0,0,0.6); width: 75px; padding: 15px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1) !important; }
+        .timer-unit span { display: block; font-size: 1.6rem; font-weight: 800; color: #d4af37; }
+
+        /* INPUTS */
+        .input-style { width: 100%; background: rgba(0,0,0,0.7); padding: 15px; margin-bottom: 12px; border-radius: 12px; color: #fff; display: block; border: 1px solid rgba(212, 175, 55, 0.3) !important; }
+        .btn-send { background: #d4af37; color: #000; font-weight: 800; width: 100%; padding: 15px; border-radius: 12px; cursor: pointer; }
+        .box-komentar { max-height: 300px; overflow-y: auto; margin-top: 20px; text-align: left; }
+        .card-komen { background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid #d4af37 !important; }
+    </style>
+</head>
+<body>
+
+<div class="bg-fixed"></div>
+
+<div class="music-widget" id="mw">
+    <i class="fas fa-compact-disc fa-spin"></i> <span id="ms">MUSIK OFF</span>
+</div>
+
+<section id="cover">
+    <div class="container" data-aos="zoom-in" data-aos-duration="2500">
+        <div class="ayat-cover">
+            <i class="fas fa-quote-left" style="color: #d4af37; display: block; margin-bottom: 15px; font-size: 1.5rem;"></i>
+            "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
+            <p style="margin-top: 10px; font-weight: bold; color: #d4af37;">(QS. Ar-Rum: 21)</p>
+        </div>
+        <p style="letter-spacing: 5px; font-size: 0.8rem;">THE WEDDING OF</p>
+        <h1 style="font-size: 3rem; margin: 10px 0;">Andhika & Karina</h1>
+        <button class="btn-buka" onclick="buka()">BUKA UNDANGAN</button>
+    </div>
+</section>
+
+<div id="content" style="display: none;">
+    
+    <section>
+        <div class="container" data-aos="fade-up" data-aos-duration="2000">
+            <h2>Mempelai</h2>
+            <div class="nama-gede">Andhika Pratama, S.T.</div>
+            <p>Putra Bpk. H. Rudi & Ibu Siti</p>
+            <div style="font-size: 2rem; margin: 20px 0; color: #d4af37;">&</div>
+            <div class="nama-gede">Karina Dewi, S.Kom.</div>
+            <p>Putri Bpk. H. Irwan & Ibu Lina</p>
+        </div>
+    </section>
+
+    <section>
+        <div class="container" data-aos="fade-up" data-aos-duration="2000">
+            <h2>Surat Undangan</h2>
+            <div style="text-align: center;">
+                <p>Assalamu'alaikum Warahmatullahi Wabarakatuh.</p>
+                <p style="margin-top: 15px;">Dengan memohon rahmat Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami:</p>
+                
+                <div class="info-acara">
+                    <h3 style="color: #d4af37; margin-bottom: 10px;">WAKTU & TEMPAT</h3>
+                    <p><strong>Sabtu, 15 April 2026</strong></p>
+                    <p>Pukul 08.00 WIB - Selesai</p>
+                    <p style="margin-top: 10px;"><strong>Ballroom The Grand Palace</strong></p>
+                    <p>Jl. Flamboyan No. 88, Jakarta Selatan</p>
+                    
+                    <a href="https://maps.app.goo.gl/Nburdbp18Mi5Qepz6" target="_blank" class="btn-map-link">
+                        <i class="fas fa-map-location-dot"></i>
+                    </a>
+                    <p style="font-size: 0.75rem; margin-top: 5px; font-weight: bold;">KLIK LOKASI</p>
+                </div>
+
+                <p>Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu berkenan hadir dan memberikan doa restu.</p>
+                <p style="margin-top: 10px;">Wassalamu'alaikum Wr. Wb.</p>
+
+                <div class="keluarga-besar">
+                    <div>
+                        <strong>Keluarga Pria:</strong><br>
+                        Bpk. H. Rudi & Ibu Siti
+                    </div>
+                    <div style="text-align: right;">
+                        <strong>Keluarga Wanita:</strong><br>
+                        Bpk. H. Irwan & Ibu Lina
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container" data-aos="flip-left" data-aos-duration="2000">
+            <h2>PERTEMUAN KAMI</h2>
+            <div style="background: rgba(0,0,0,0.6); padding: 25px; border-radius: 20px; text-align: left; border: 1px solid rgba(255,255,255,0.1) !important;">
+                <p><strong>Awal Bertemu</strong><br>Pertemuan pertama kami dimulai dari bangku kuliah tahun 2020.</p>
+                <p style="margin-top: 15px;"><strong>Janji Suci</strong><br>Setelah melewati banyak hal, kami memutuskan untuk mengikat janji suci hari ini.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container" data-aos="zoom-in" data-aos-duration="2000">
+            <h2>Menuju Hari H</h2>
+            <div class="timer-box">
+                <div class="timer-unit"><span id="d">00</span>Hr</div>
+                <div class="timer-unit"><span id="h">00</span>Jam</div>
+                <div class="timer-unit"><span id="m">00</span>Min</div>
+                <div class="timer-unit"><span id="s">00</span>Dtk</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container" data-aos="fade-right" data-aos-duration="2000">
+            <h2>Konfirmasi Kehadiran</h2>
+            <div class="counter-box">
+                <p style="font-size: 0.9rem; margin-bottom: 5px;">Tamu yang akan hadir:</p>
+                <h2 id="rsvp_count" style="margin: 0; font-size: 2.2rem;">0 Orang</h2>
+            </div>
+            <input type="text" id="rsvp_name" class="input-style" placeholder="Nama Lengkap">
+            
+            <label style="display:block; text-align:left; font-size: 0.8rem; margin-bottom: 5px; color:#d4af37;">Jumlah Orang Hadir:</label>
+            <input type="number" id="rsvp_qty" class="input-style" value="1" min="1">
+            
+            <select id="rsvp_status" class="input-style">
+                <option value="Hadir">Saya Akan Hadir</option>
+                <option value="Tidak Hadir">Berhalangan Hadir</option>
+            </select>
+            <button class="btn-send" onclick="kirimRSVP()">KIRIM KONFIRMASI</button>
+        </div>
+    </section>
+
+    <section>
+        <div class="container" data-aos="fade-up" data-aos-duration="2000">
+            <h2>Doa & Ucapan</h2>
+            <input type="text" id="un" class="input-style" placeholder="Nama Anda">
+            <textarea id="up" class="input-style" rows="3" placeholder="Tulis doa restu..."></textarea>
+            <button class="btn-send" onclick="gas()">KIRIM UCAPAN</button>
+            <div class="box-komentar" id="ul"></div>
+        </div>
+    </section>
+
+</div>
+
+<audio id="lagu" loop>
+    <source src="weding.mp3" type="audio/mpeg">
+</audio>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+
+    const lagu = document.getElementById('lagu');
+    
+    function buka() {
+        document.getElementById('cover').style.transform = 'translateY(-100%)';
+        document.getElementById('content').style.display = 'block';
+        lagu.play();
+        document.getElementById('ms').innerText = "MUSIK ON";
+        setTimeout(() => { 
+            AOS.refresh(); 
+            hitungTamu();
+        }, 100);
+        startTimer();
+        tampil();
+    }
+
+    function startTimer() {
+        const target = new Date("April 15, 2026 08:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }, 1000);
+    }
+
+    function kirimRSVP() {
+        const name = document.getElementById('rsvp_name').value;
+        const status = document.getElementById('rsvp_status').value;
+        const qty = parseInt(document.getElementById('rsvp_qty').value) || 0;
+        if(!name) return alert("Nama harus diisi!");
+        
+        let tamuList = JSON.parse(localStorage.getItem('wedding_vfinal_rsvp') || '[]');
+        tamuList.push({name, status, qty: (status === 'Hadir' ? qty : 0)});
+        localStorage.setItem('wedding_vfinal_rsvp', JSON.stringify(tamuList));
+        
+        document.getElementById('rsvp_name').value = '';
+        alert("Konfirmasi tersimpan!");
+        hitungTamu();
+    }
+
+    function hitungTamu() {
+        let tamuList = JSON.parse(localStorage.getItem('wedding_vfinal_rsvp') || '[]');
+        let totalOrang = tamuList.reduce((acc, curr) => acc + curr.qty, 0);
+        document.getElementById('rsvp_count').innerText = totalOrang + " Orang";
+    }
+
+    function gas() {
+        const n = document.getElementById('un').value;
+        const p = document.getElementById('up').value;
+        if(!n || !p) return;
+        let d = JSON.parse(localStorage.getItem('w_msg_vfinal') || '[]');
+        d.push({n, p});
+        localStorage.setItem('w_msg_vfinal', JSON.stringify(d));
+        document.getElementById('un').value = ''; document.getElementById('up').value = '';
+        tampil();
+    }
+
+    function tampil() {
+        const l = document.getElementById('ul');
+        let d = JSON.parse(localStorage.getItem('w_msg_vfinal') || '[]');
+        l.innerHTML = d.reverse().map(x => `
+            <div class="card-komen">
+                <b>${x.n}</b>
+                <p style="font-size: 0.85rem; margin: 5px 0 0 0;">${x.p}</p>
+            </div>
+        `).join('');
+    }
+</script>
+</body>
+</html>
